@@ -1,0 +1,16 @@
+Package: ngboostR
+Title: R Wrapper for NGBoost python module
+Version: 0.0.1
+Authors@R: 
+    person(given = "Alfonso",
+           family = "Carabantes",
+           role = c("aut", "cre"),
+           email = "acca3003@gmail.com")
+Description: R Wrapper for NGBoost pythont module
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports:
+  reticulate
