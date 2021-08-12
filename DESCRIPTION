@@ -1,9 +1,9 @@
 Package: ngboostR
 Title: R Wrapper for NGBoost python module
-Version: 0.0.1
+Version: 0.1.2
 Authors@R: 
     person(given = "Alfonso",
-           family = "Carabantes",
+           family = "Carabantes Alamo",
            role = c("aut", "cre"),
            email = "acca3003@gmail.com")
 Description: R Wrapper for NGBoost pythont module

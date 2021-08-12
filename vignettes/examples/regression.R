@@ -2,22 +2,41 @@
 library(ngboostR) # R implementation for NGBoost
 library(Metrics) # Métrics
 library(MASS) # boston houses dataset
+library(caret)
+
 
 
 data(Boston)
+set.seed(999)
+trainIndex <- createDataPartition(Boston$medv, p = .8, 
+                                  list = FALSE, 
+                                  times = 1)
 
-X = Boston[,1:13]
-Y = Boston[,14]
+X_train = Boston[trainIndex,1:13]
+Y_train = Boston[trainIndex,14]
+
+X_val = Boston[-trainIndex,1:13]
+Y_val = Boston[-trainIndex,14]
+
+
 
 # Create the regressor object
-reg_ngboost <- create_regressor()
+# reg_ngboost <- create_regressor() # Default parameters
+reg_ngboost <- create_regressor(natural_gradient=TRUE,
+                                n_estimators=as.integer(600),
+                                learning_rate=0.002,
+                                minibatch_frac=0.8,
+                                col_sample=0.9,
+                                verbose=TRUE,
+                                verbose_eval=as.integer(50),
+                                tol=6e-5)
 # Train with the boston data
-fit_regressor(reg_ngboost, X, Y)
+fit_regressor(reg_ngboost, X_train, Y_train, X_val, Y_val)
 
 # Predic the price
-predictions <- predict_regressor(reg_ngboost, X)
-Metrics::rmse(Y,predictions)
+predictions <- predict_regressor(reg_ngboost, X_val)
+Metrics::rmse(Y_val,predictions)
 
 # Predict the price as a Normal distribution (mean/locate and desviation/scale)
-predictions_dist <- predict_regressor_dist(reg_ngboost, X)
+predictions_dist <- predict_regressor_dist(reg_ngboost, X_val)
 predictions_dist
