@@ -1,9 +1,19 @@
+---
+title: "ngboostR Regressor"
+author: "Alfonso Carabantes"
+date: "12/8/2021"
+output: html_document
+---
+
+```{r}
+#Install last ve
+#library(devtools)
+#install_github("acca3003/ngboostR")
 
 library(ngboostR) # R implementation for NGBoost
 library(Metrics) # Métrics
 library(MASS) # boston houses dataset
 library(caret)
-
 
 
 data(Boston)
@@ -40,3 +50,6 @@ Metrics::rmse(Y_val,predictions)
 # Predict the price as a Normal distribution (mean/locate and desviation/scale)
 predictions_dist <- predict_regressor_dist(reg_ngboost, X_val)
 predictions_dist
+
+```
+
