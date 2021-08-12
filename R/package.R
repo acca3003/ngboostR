@@ -7,7 +7,7 @@
 #' @name ngboost
 
 
-# python 'scipy' module I want to use in my package
+#' @export
 ngboost <- NULL
 
 .onLoad <- function(libname, pkgname) {
@@ -21,11 +21,12 @@ ngboost <- NULL
 
 
 
-#' @rdname ngboost_version
-#' @keywords internal
+#' Version Number of the python module NGBoost
+#'
+#' @return Version Number of the python module NGBoost
 #' @export
-ngboost_version <- function() {
-  print("0.0.1")
+ngboost_python_version <- function() {
+  print("Incoming...")
 }
 
 

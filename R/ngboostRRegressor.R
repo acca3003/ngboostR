@@ -1,4 +1,7 @@
-#' @rdname create_regressor
+#' Create a NGBoostRegressor object
+#'
+#' @param natural_gradient boolean if the natural gradient is used
+#' @return A NGBoostRegressor object
 #' @export
 create_regressor <- function(natural_gradient=TRUE,
                              n_estimators=as.integer(500),
@@ -8,10 +11,9 @@ create_regressor <- function(natural_gradient=TRUE,
                              verbose=TRUE,
                              verbose_eval=as.integer(100),
                              tol=1e-4) {
-  classifier <- NULL
-  print("Creating regressor...")
-  nboost <- import("ngboost")
-  regressor <- ngboost$NGBRegressor(natural_gradient=natural_gradient,
+  
+  regressor <- ngboost$NGBRegressor(Dist=Dist,
+                                    natural_gradient=natural_gradient,
                                     n_estimators=as.integer(n_estimators),
                                     learning_rate=learning_rate,
                                     minibatch_frac=minibatch_frac,
@@ -21,21 +23,30 @@ create_regressor <- function(natural_gradient=TRUE,
                                     tol=tol)
   regressor
 }
-#' @rdname fit_regressor
+#' Train a NGBoostRegressor object
+#'
+#' @param ngbr_reg NGBoostRegressor obcjet
+#' @return Nothing
 #' @export
 fit_regressor <- function( ngbr_reg, X_train, Y_train, X_val, Y_val) {
   print("Fitting the regressor")
   ngbr_reg$fit(X_train, Y_train, X_val, Y_val)
 }
 
-#' @rdname predict_regressor
+#' Predict using a NGBoostRegressor object
+#'
+#' @param ngbr_reg NGBoostRegressor obcjet
+#' @return Predictions
 #' @export
 predict_regressor <- function( ngbr_reg, new_data) {
   pred <- ngbr_reg$predict(new_data)
   pred
 }
 
-#' @rdname predict_regressor_dist
+#' Predict Normal distribution using NGBoostRegressor object
+#'
+#' @param ngbr_reg NGBoostRegressor obcjet
+#' @return A list with loc(mean) and scale(desviation)
 #' @export
 predict_regressor_dist <- function( ngbr_reg, new_data) {
   pred_temp <- ngbr_reg$pred_dist(new_data)
