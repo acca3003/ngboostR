@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "acca3003@gmail.com")
 Description: R Wrapper for NGBoost python module
-License: MIT
+License: Apache 2.0
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
