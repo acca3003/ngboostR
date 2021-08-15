@@ -1,6 +1,13 @@
 #' Create a NGBoostRegressor object
 #'
-#' @param natural_gradient boolean if the natural gradient is used
+#' @param natural_gradient logical flag indicating whether the natural gradient should be used
+#' @param n_estimators the number of boosting iterations to fit
+#' @param learning_rate the learning rate
+#' @param minibatch_frac the percent subsample of rows to use in each boosting iteration
+#' @param col_sample the percent subsample of columns to use in each boosting iteration
+#' @param verbose flag indicating whether output should be printed during fitting
+#' @param verbose_eval increment (in boosting iterations) at which output should be printed
+#' @param tol numerical tolerance to be used in optimization
 #' @return A NGBoostRegressor object
 #' @export
 create_regressor <- function(natural_gradient=TRUE,
@@ -26,7 +33,10 @@ create_regressor <- function(natural_gradient=TRUE,
 #' Train a NGBoostRegressor object
 #'
 #' @param ngbr_reg NGBoostRegressor obcjet
-#' @return Nothing
+#' @param X_train Training data. Is an object where samples are in rows and features are in columns.
+#' @param Y_train Training data. A numeric  vector containing the outcome for each sample.
+#' @param X_val validattion data. Is an object where samples are in rows and features are in columns.
+#' @param Y_val Validation data A numeric  vector containing the outcome for each sample.
 #' @export
 fit_regressor <- function( ngbr_reg, X_train, Y_train, X_val, Y_val) {
   print("Fitting the regressor")
@@ -36,6 +46,7 @@ fit_regressor <- function( ngbr_reg, X_train, Y_train, X_val, Y_val) {
 #' Predict using a NGBoostRegressor object
 #'
 #' @param ngbr_reg NGBoostRegressor obcjet
+#' @param new_Data Is an object where new samples are in rows and features are in columns.
 #' @return Predictions
 #' @export
 predict_regressor <- function( ngbr_reg, new_data) {
@@ -46,6 +57,7 @@ predict_regressor <- function( ngbr_reg, new_data) {
 #' Predict Normal distribution using NGBoostRegressor object
 #'
 #' @param ngbr_reg NGBoostRegressor obcjet
+#' @param new_Data Is an object where new samples are in rows and features are in columns.
 #' @return A list with loc(mean) and scale(desviation)
 #' @export
 predict_regressor_dist <- function( ngbr_reg, new_data) {

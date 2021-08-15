@@ -1,6 +1,6 @@
 #' NGBoost for R
 #'
-#' \href{https://stanfordmlgroup.github.io}{NGBoost} bla bla bla
+#' \href{https://stanfordmlgroup.github.io}{NGBoost} This package contains a wrapper for the NGBoost python Module
 #' @import reticulate
 #'
 #' @docType package

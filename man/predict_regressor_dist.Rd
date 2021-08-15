@@ -8,6 +8,8 @@ predict_regressor_dist(ngbr_reg, new_data)
 }
 \arguments{
 \item{ngbr_reg}{NGBoostRegressor obcjet}
+
+\item{new_Data}{Is an object where new samples are in rows and features are in columns.}
 }
 \value{
 A list with loc(mean) and scale(desviation)
