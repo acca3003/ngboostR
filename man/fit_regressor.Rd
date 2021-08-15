@@ -8,9 +8,14 @@ fit_regressor(ngbr_reg, X_train, Y_train, X_val, Y_val)
 }
 \arguments{
 \item{ngbr_reg}{NGBoostRegressor obcjet}
-}
-\value{
-Nothing
+
+\item{X_train}{Training data. Is an object where samples are in rows and features are in columns.}
+
+\item{Y_train}{Training data. A numeric  vector containing the outcome for each sample.}
+
+\item{X_val}{validattion data. Is an object where samples are in rows and features are in columns.}
+
+\item{Y_val}{Validation data A numeric  vector containing the outcome for each sample.}
 }
 \description{
 Train a NGBoostRegressor object

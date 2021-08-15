@@ -16,7 +16,21 @@ create_regressor(
 )
 }
 \arguments{
-\item{natural_gradient}{boolean if the natural gradient is used}
+\item{natural_gradient}{logical flag indicating whether the natural gradient should be used}
+
+\item{n_estimators}{the number of boosting iterations to fit}
+
+\item{learning_rate}{the learning rate}
+
+\item{minibatch_frac}{the percent subsample of rows to use in each boosting iteration}
+
+\item{col_sample}{the percent subsample of columns to use in each boosting iteration}
+
+\item{verbose}{flag indicating whether output should be printed during fitting}
+
+\item{verbose_eval}{increment (in boosting iterations) at which output should be printed}
+
+\item{tol}{numerical tolerance to be used in optimization}
 }
 \value{
 A NGBoostRegressor object
