@@ -26,7 +26,8 @@ ngboost <- NULL
 #' @return Version Number of the python module NGBoost
 #' @export
 ngboost_python_version <- function() {
-  print("Incoming...")
+  ver <- keras$`__version__`
+  ver
 }
 
 
