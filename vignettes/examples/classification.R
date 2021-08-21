@@ -11,7 +11,7 @@ X <- iris[,1:4]
 Y <- iris[,5]
 Y <- as.integer(Y)
 
-clas1 <- create_classifier(Dist=ngboost$distns$k_categorical(3))
+clas1 <- create_classifier(Dist=ngboost$distns$k_categorical(as.integer(3)))
 # Tipo para la clase tiene que ser numerico
 
 fit_classifier(clas1, X, Y)

@@ -10,7 +10,9 @@
 #' @param tol numerical tolerance to be used in optimization
 #' @return A NGBoostRegressor object
 #' @export
-create_regressor <- function(natural_gradient=TRUE,
+create_regressor <- function(Dist=NULL,
+                             Base=default_tree_learner,
+                             natural_gradient=TRUE,
                              n_estimators=as.integer(500),
                              learning_rate=0.01,
                              minibatch_frac=1.0,
@@ -20,6 +22,7 @@ create_regressor <- function(natural_gradient=TRUE,
                              tol=1e-4) {
   
   regressor <- ngboost$NGBRegressor(Dist=Dist,
+                                    Base = Base,
                                     natural_gradient=natural_gradient,
                                     n_estimators=as.integer(n_estimators),
                                     learning_rate=learning_rate,
@@ -38,7 +41,7 @@ create_regressor <- function(natural_gradient=TRUE,
 #' @param X_val validattion data. Is an object where samples are in rows and features are in columns.
 #' @param Y_val Validation data A numeric  vector containing the outcome for each sample.
 #' @export
-fit_regressor <- function( ngbr_reg, X_train, Y_train, X_val, Y_val) {
+fit_regressor <- function( ngbr_reg, X_train, Y_train, X_val=NULL, Y_val=NULL) {
   print("Fitting the regressor")
   ngbr_reg$fit(X_train, Y_train, X_val, Y_val)
 }
@@ -62,6 +65,61 @@ predict_regressor <- function( ngbr_reg, new_data) {
 #' @export
 predict_regressor_dist <- function( ngbr_reg, new_data) {
   pred_temp <- ngbr_reg$pred_dist(new_data)
-  pred <- list( "loc"=pred_temp$loc, "scale"=pred_temp$scale)
+  
+  # We have to detect the Distribution to build the prediction
+  # <class 'ngboost.distns.laplace.Laplace'>
+  # Buscaremos el texto adecuado y luego cogeremos los 
+
+  if( toString(ngbr_reg$Dist) == "<class 'ngboost.distns.laplace.Laplace'>") 
+  {
+    # Laplace Distribution
+    pred <- list( "distribution"="Laplace","loc"=pred_temp$params$loc, "scale"=pred_temp$params$scale)
+    
+  } else if(toString(ngbr_reg$Dist) == "<class 'ngboost.distns.cauchy.Cauchy'>")
+  {
+    # Cauchy Distribution
+    pred <- list( "distribution"="Cauchy","loc"=pred_temp$params$loc, "scale"=pred_temp$params$scale)
+  }
+  else if(toString(ngbr_reg$Dist) == "<class 'ngboost.distns.poisson.Poisson'>")
+  {
+    # Poisson Distribution
+    pred <- list( "distribution"="Poisson","mu"=pred_temp$params$mu)
+    
+  } else if( toString(ngbr_reg$Dist) == "<class 'ngboost.distns.normal.Normal'>")
+  {
+    # Normal Distribution
+    pred <- list( "distribution"="Normal","loc"=pred_temp$params$loc, "scale"=pred_temp$params$scale)
+
+    
+  }else if( toString(ngbr_reg$Dist) == "<class 'ngboost.distns.t.T'>")
+  {
+    # T student Distribution
+    pred <- list( "distribution"="TStudent","loc"=pred_temp$params$loc, "scale"=pred_temp$params$scale)
+    
+  }else if( toString(ngbr_reg$Dist) == "<class 'ngboost.distns.multivariate_normal.MultivariateNormal.<locals>.MVN'>")
+  {
+    # MultivarianteNormal Distribution
+    pred <- list( "distribution"="MultivariateNormal","loc"=pred_temp$params$loc, "scale"=pred_temp$params$scale)
+  }
+  else if( toString(ngbr_reg$Dist) == "<class 'ngboost.distns.distn.Distn.uncensor.<locals>.DistWithUncensoredScore'>")
+  {
+    if( toString(ngbr_reg$Dist$censored_scores[[1]])=="<class 'ngboost.distns.lognormal.LogNormalLogScoreCensored'>")
+    {
+      # LogNormal Distribution
+      print("LogNormal......")
+      pred <- list( "distribution"="LogNormal","s"=pred_temp$params$s, "scale"=pred_temp$params$scale)
+    }else
+    {
+      # Exponential Distribution
+      pred <- list( "distribution"="Exponential","scale"=pred_temp$params$scale)
+    }
+  }
+  else
+  {
+    print("Nothing Distribution")
+    print(toString(ngbr_reg$Dist))
+
+  }
+
   pred
 }

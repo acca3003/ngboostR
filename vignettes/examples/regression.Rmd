@@ -1,7 +1,7 @@
 ---
 title: "ngboostR Regressor"
 author: "Alfonso Carabantes"
-date: "12/8/2021"
+date: "20/8/2021"
 output: html_document
 ---
 
@@ -32,22 +32,31 @@ Y_val = Boston[-trainIndex,14]
 
 # Create the regressor object
 # reg_ngboost <- create_regressor() # Default parameters
-reg_ngboost <- create_regressor(natural_gradient=TRUE,
+reg_ngboost <- create_regressor(Dist=Normal(),
+                                Base=DecisionTreeRegressor(
+                                  criterion="mae",
+                                  min_samples_split=2,
+                                  min_samples_leaf=1,
+                                  min_weight_fraction_leaf=0.0,
+                                  max_depth=5,
+                                  splitter="best",
+                                  random_state=NULL),
+                                natural_gradient=TRUE,
                                 n_estimators=as.integer(600),
                                 learning_rate=0.002,
                                 minibatch_frac=0.8,
                                 col_sample=0.9,
                                 verbose=TRUE,
                                 verbose_eval=as.integer(50),
-                                tol=6e-5)
+                                tol=1e-5)
 # Train with the boston data
 fit_regressor(reg_ngboost, X_train, Y_train, X_val, Y_val)
 
-# Predic the price
+# Predict the price
 predictions <- predict_regressor(reg_ngboost, X_val)
 Metrics::rmse(Y_val,predictions)
 
-# Predict the price as a Normal distribution (mean/locate and desviation/scale)
+# Predict the price as a distribution
 predictions_dist <- predict_regressor_dist(reg_ngboost, X_val)
 predictions_dist
 

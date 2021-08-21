@@ -9,6 +9,7 @@
 
 #' @export
 ngboost <- NULL
+sklearn <- NULL
 
 .onLoad <- function(libname, pkgname) {
   # delay load foo module (will only be loaded when accessed via $)
@@ -16,6 +17,7 @@ ngboost <- NULL
   #packageStartupMessage("Cargando ngbR")
   #reticulate::configure_environment(pkgname)
   ngboost <<- reticulate::import("ngboost",delay_load = TRUE)
+  sklearn <<- reticulate::import("sklearn",delay_load = TRUE)
   #packageStartupMessage("Cargado ngbR")
 }
 
