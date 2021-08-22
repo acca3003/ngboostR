@@ -5,35 +5,37 @@
 \title{Create a NGBoostClassifier object}
 \usage{
 create_classifier(
-  Dist = NULL,
-  natural_gradient = TRUE,
-  n_estimators = as.integer(500),
+  Base = DecisionTreeRegressor(),
+  Dist = Bernoulli(),
+  col_sample = 1,
   learning_rate = 0.01,
   minibatch_frac = 1,
-  col_sample = 1,
+  n_estimators = as.integer(500),
+  natural_gradient = TRUE,
+  random_state = NULL,
+  tol = 1e-04,
   verbose = TRUE,
-  verbose_eval = as.integer(100),
-  tol = 1e-04
+  verbose_eval = as.integer(100)
 )
 }
 \arguments{
 \item{Dist}{Distribution should be used}
 
-\item{natural_gradient}{logical flag indicating whether the natural gradient should be used}
-
-\item{n_estimators}{the number of boosting iterations to fit}
+\item{col_sample}{the percent subsample of columns to use in each boosting iteration}
 
 \item{learning_rate}{the learning rate}
 
 \item{minibatch_frac}{the percent subsample of rows to use in each boosting iteration}
 
-\item{col_sample}{the percent subsample of columns to use in each boosting iteration}
+\item{n_estimators}{the number of boosting iterations to fit}
+
+\item{natural_gradient}{logical flag indicating whether the natural gradient should be used}
+
+\item{tol}{numerical tolerance to be used in optimization}
 
 \item{verbose}{flag indicating whether output should be printed during fitting}
 
 \item{verbose_eval}{increment (in boosting iterations) at which output should be printed}
-
-\item{tol}{numerical tolerance to be used in optimization}
 }
 \value{
 A NGBoostRegressor object

@@ -11,24 +11,29 @@
 #' @param tol numerical tolerance to be used in optimization
 #' @return A NGBoostRegressor object
 #' @export
-create_classifier <- function(Dist=NULL,
-                              natural_gradient=TRUE,
-                              n_estimators=as.integer(500),
-                              learning_rate=0.01,
-                              minibatch_frac=1.0,
+create_classifier <- function(Base=DecisionTreeRegressor(),
+                              Dist=Bernoulli(),
                               col_sample=1.0,
-                              verbose=TRUE,
-                              verbose_eval=as.integer(100),
-                              tol=1e-4) {
+                              learning_rate=0.01, 
+                              minibatch_frac=1.0, 
+                              n_estimators=as.integer(500),
+                              natural_gradient=TRUE,
+                              random_state=NULL, 
+                              tol=0.0001,
+                              verbose=TRUE, 
+                              verbose_eval=as.integer(100)) {
   
-  classifier <- ngboost$NGBClassifier(Dist=Dist,
-                                      natural_gradient=natural_gradient,
-                                      n_estimators=as.integer(n_estimators),
-                                      minibatch_frac=minibatch_frac,
+  classifier <- ngboost$NGBClassifier(Base=Base,
+                                      Dist=Dist,
                                       col_sample=col_sample,
-                                      verbose=verbose,
-                                      verbose_eval=as.integer(verbose_eval),
-                                      tol=tol
+                                      learning_rate=learning_rate, 
+                                      minibatch_frac=minibatch_frac, 
+                                      n_estimators=n_estimators,
+                                      natural_gradient=natural_gradient,
+                                      random_state=random_state, 
+                                      tol=tol,
+                                      verbose=verbose, 
+                                      verbose_eval=verbose_eval
                                       )
   classifier
 }
@@ -77,6 +82,7 @@ predict_classifier_prob <- function( ngbr_cla, new_data) {
 #' @export
 predict_classifier_dist <- function( ngbr_cla, new_data) {
   pred_temp <- ngbr_cla$pred_dist(new_data)
-  pred <- list( "p0"=pred_temp$loc, "p1"=pred_temp$scale)
+  number_classes <- ngbr_cla$Dist$K_
+  pred <- pred_temp$params
   pred
 }

@@ -1,0 +1,55 @@
+---
+title: "ngboostR Classifier"
+author: "Alfonso Carabantes"
+date: "22/8/2021"
+output: html_document
+---
+
+```{r}
+#Install last ve
+#library(devtools)
+#install_github("acca3003/ngboostR")
+
+library(ngboostR) # R implementation for NGBoost
+library(Metrics) # Métrics
+library(mlbench) # Breast Cancer dataset
+library(caret)
+
+
+data("BreastCancer")
+set.seed(999)
+BreastCancer <- na.omit(BreastCancer)
+trainIndex <- createDataPartition(BreastCancer$Class, p = .8, 
+                                  list = FALSE, 
+                                  times = 1)
+
+X_train <- BreastCancer[trainIndex,2:10]
+Y_train <- BreastCancer[trainIndex,11]
+Y_train <- as.integer(as.integer(Y_train)-1)
+
+X_val <- BreastCancer[-trainIndex,2:10]
+Y_val <- BreastCancer[-trainIndex,11]
+Y_val <- as.integer(as.integer(Y_val)-1)
+
+
+# Create the regressor object
+# reg_ngboost <- create_regressor() # Default parameters
+class_ngboost <- create_classifier()
+# Train with the boston data
+fit_classifier(class_ngboost, X_train, Y_train, X_val, Y_val)
+
+
+# Predict the price
+predictions <- predict_classifier(class_ngboost, X_val)
+Metrics::accuracy(Y_val,predictions)
+
+# Predict the price
+predictions_prob <- predict_classifier_prob(class_ngboost, X_val)
+predictions_prob
+
+# Predict the price as a distribution
+predictions_dist <- predict_classifier_dist(class_ngboost, X_val)
+predictions_dist
+
+```
+

@@ -79,7 +79,7 @@ k_categorical <- function( K ){
 #' @return Bernoulli Distribution Object
 #' @export
 Bernoulli <- function(){
-  ngboost$distns$k_categorical(as.integer(1))
+  ngboost$distns$k_categorical(as.integer(2))
 }
 
 

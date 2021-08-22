@@ -4,7 +4,7 @@
 \alias{fit_regressor}
 \title{Train a NGBoostRegressor object}
 \usage{
-fit_regressor(ngbr_reg, X_train, Y_train, X_val, Y_val)
+fit_regressor(ngbr_reg, X_train, Y_train, X_val = NULL, Y_val = NULL)
 }
 \arguments{
 \item{ngbr_reg}{NGBoostRegressor obcjet}
