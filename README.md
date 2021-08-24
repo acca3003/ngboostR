@@ -40,8 +40,9 @@ install_ngboost()
 #### Regression
 
 ```{r}
-#Install last ve
+#Install last version
 #library(devtools)
+#install_github("acca3003/ngboostR")
 
 
 library(ngboostR) # R implementation for NGBoost
@@ -99,7 +100,7 @@ predictions_dist
 ### Classification
 
 ```{r}
-#Install last ve
+#Install last version
 #library(devtools)
 #install_github("acca3003/ngboostR")
 
