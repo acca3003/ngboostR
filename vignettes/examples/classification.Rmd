@@ -33,8 +33,18 @@ Y_val <- as.integer(as.integer(Y_val)-1)
 
 
 # Create the regressor object
-# reg_ngboost <- create_regressor() # Default parameters
-class_ngboost <- create_classifier()
+
+class_ngboost <- create_classifier(Base=DecisionTreeRegressor(),
+                              Dist=Bernoulli(),
+                              col_sample=1.0,
+                              learning_rate=0.01, 
+                              minibatch_frac=1.0, 
+                              n_estimators=as.integer(500),
+                              natural_gradient=TRUE,
+                              random_state=NULL, 
+                              tol=0.0001,
+                              verbose=TRUE, 
+                              verbose_eval=as.integer(100))
 # Train with the boston data
 fit_classifier(class_ngboost, X_train, Y_train, X_val, Y_val)
 

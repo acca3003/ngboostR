@@ -127,7 +127,7 @@ Y_val <- as.integer(as.integer(Y_val)-1)
 
 
 # Create the regressor object
-# reg_ngboost <- create_regressor() # Default parameters
+# Default parameters
 class_ngboost <- create_classifier()
 # Train with the boston data
 fit_classifier(class_ngboost, X_train, Y_train, X_val, Y_val)
